@@ -73,11 +73,8 @@ def main():
     # Remove questions that aren't questions.
     d_clean = filter(lambda row: '' not in row.values(), d_messy)
 
-    for row in d_clean:
-        row['examfile'] = examfile
-
     dt = dumptruck.DumpTruck(dbname = dbfile)
-    dt.create_table({'examfile': 'abc', 'correct_choice': 3}, 'current')
+    dt.create_table({'correct_choice': 3}, 'current')
     dt.upsert(d_clean, 'current')
 
 if __name__ == '__main__':
