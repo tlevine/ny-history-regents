@@ -17,21 +17,17 @@ DB=/tmp/global-history-regents.db
 tmp_exam=$(mktemp)
 tmp_scoring=$(mktemp)
 
-# Convert to text
+# Questons
 pdftotext "$exam_file" "$tmp_exam"
-pdftotext "$exam_file" "$tmp_scoring"
-
-# Pick out part I
 sed -n -i '/^Directions.*50.*:/,/^P[aA][rR][tT] II$/ p' "$tmp_exam"
-
-# Put the questions in the database.
 ./parse-part_ii.py "$DB" "$tmp_exam"
 rm "$tmp_exam"
 
-# Put the answers in the database.
-sed -n '1,/^50/ p' "$tmp_scoring" | sed -n -e '/^[0-9].*[1-4]/p' | sed -e 's/[^0-9 ]//g' -e 's/  */ /' -e 's/ *$//' |sort -n |
-  sed -n '/^[0-9]\{1,2\} [1-4]$/p' | 
-  sed "s/^\([0-9]*\) \([1-4]\)/UPDATE current SET correct_answer = \2 WHERE \"number\" = \1;/" | sqlite3 "$DB"
+# Answers
+pdftohtml -xml -l 1 "$scoring_file" "$tmp_scoring".xml
+./parse-scoring.py  "$tmp_scoring".xml #| sqlite3 "$DB"
+
+exit 12
 
 # Put it in the right table.
 sqlite3 "$DB" < schema.sql
