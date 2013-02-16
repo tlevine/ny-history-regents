@@ -8,3 +8,9 @@ Download
 Then parse it
 
     ./parse-exam.sh [exam file pdf]
+
+Parse all of the US history regents.
+
+    ./parse-us.sh
+
+
