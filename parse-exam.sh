@@ -34,5 +34,5 @@ BEGIN TRANSACTION;
 UPDATE current SET examfile = '$exam_file';
 INSERT INTO question (examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_choice)
   SELECT examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_choice FROM current;
-COMMIT;" || echo "There was an error in the question extraction, so I'm skipping this file.\n"
+COMMIT;" # || echo "There was an error in the question extraction, so I'm skipping this file.\n"
 sqlite3 "$DB" 'DROP TABLE current;'

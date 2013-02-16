@@ -1,13 +1,12 @@
 #!/bin/sh
 set -e
 
-
 exam() {
   exam="$1"
   exam=$(echo "$scoringkey" | sed 's/\(scoring\|key\).*$/exam.pdf/')
   echo $exam
   echo $scoringkey
-  ./parse-exam.sh "$exam" "$scoringkey"
+  [ -f "$exam" ] && [ -f "$scoringkey" ] && ./parse-exam.sh "$exam" "$scoringkey"
 }
 
 for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*scoringkeyIandII.pdf); do
