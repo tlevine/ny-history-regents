@@ -13,14 +13,14 @@ exam_file="$1"
 scoring_file="$2"
 
 # Temporary files
-DB=/tmp/global-history-regents.db
+DB=/tmp/history-regents.db
 tmp_exam=$(mktemp)
 tmp_scoring=$(mktemp)
 
 # Questons
 pdftotext "$exam_file" "$tmp_exam"
 sed -n -i '/^Directions.*50.*:/,/^P[aA][rR][tT] II$/ p' "$tmp_exam"
-./parse-part_ii.py "$DB" "$tmp_exam"
+./parse-part_i.py "$DB" "$tmp_exam"
 rm "$tmp_exam"
 
 # Answers
