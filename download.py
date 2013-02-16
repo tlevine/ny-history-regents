@@ -17,7 +17,7 @@ def main():
         'http://www.nysedregents.org/USHistoryGov/home.html',
         'http://www.nysedregents.org/GlobalHistoryGeography',
     ]
-    for index_URL in INDEX_URLS:
+    for index_url in INDEX_URLS:
         for test_url in index_to_files(index_url):
             hardhat.get(test_url)
 
