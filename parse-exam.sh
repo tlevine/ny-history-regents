@@ -29,7 +29,6 @@ pdftohtml -xml -l 1 "$scoring_file" "$tmp_scoring".xml
 
 # Put it in the right table.
 sqlite3 "$DB" < schema.sql
-echo $exam_file
 sqlite3 "$DB" "
 BEGIN TRANSACTION;
 INSERT INTO question (examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_choice)
