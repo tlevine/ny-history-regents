@@ -6,7 +6,7 @@ if [ ! -f "$1" ]; then
   exit 1
 fi
 
-DB=/tmp/history-regents.db
+DB=/tmp/global-history-regents.db
 exam_file="$1"
 tmp=$(mktemp)
 
@@ -25,6 +25,7 @@ sqlite3 "$DB" < schema.sql
 sqlite3 "$DB" "
 BEGIN TRANSACTION;
 UPDATE current SET examfile = '$exam_file';
-INSERT INTO question SELECT * FROM current;
-DROP TABLE CURRENT;
-COMMIT;"
+INSERT INTO question (examfile, \"number\", answer1, answer2, answer3, answer4)
+  SELECT examfile, \"number\", answer1, answer2, answer3, answer4 FROM current;
+COMMIT;" || echo "There was an error in the question extraction, so I'm skipping this file.\n"
+sqlite3 "$DB" 'DROP TABLE CURRENT;'
