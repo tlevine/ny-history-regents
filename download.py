@@ -19,7 +19,7 @@ def main():
     ]
     for index_url in INDEX_URLS:
         for test_url in index_to_files(index_url):
-            hardhat.get(test_url)
+            hardhat.get(test_url, 'downloads')
 
 if __name__ == '__main__':
     main()
