@@ -77,7 +77,7 @@ def main():
         row['examfile'] = examfile
 
     dt = dumptruck.DumpTruck(dbname = dbfile)
-    dt.create_table({'examfile': 'abc', 'correct_answer': 3}, 'current')
+    dt.create_table({'examfile': 'abc', 'correct_choice': 3}, 'current')
     dt.upsert(d_clean, 'current')
 
 if __name__ == '__main__':

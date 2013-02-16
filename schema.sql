@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS question (
     answer2 TEXT NOT NULL,
     answer3 TEXT NOT NULL,
     answer4 TEXT NOT NULL,
-    correct_answer INTEGER,
+    correct_choice INTEGER,
     UNIQUE(examfile, "number")
 );

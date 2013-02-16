@@ -25,16 +25,14 @@ rm "$tmp_exam"
 
 # Answers
 pdftohtml -xml -l 1 "$scoring_file" "$tmp_scoring".xml
-./parse-scoring.py  "$tmp_scoring".xml #| sqlite3 "$DB"
-
-exit 12
+./parse-scoring.py  "$tmp_scoring".xml | sqlite3 "$DB"
 
 # Put it in the right table.
 sqlite3 "$DB" < schema.sql
 sqlite3 "$DB" "
 BEGIN TRANSACTION;
 UPDATE current SET examfile = '$exam_file';
-INSERT INTO question (examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_answer)
-  SELECT examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_answer FROM current;
+INSERT INTO question (examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_choice)
+  SELECT examfile, \"number\", question, answer1, answer2, answer3, answer4, correct_choice FROM current;
 COMMIT;" || echo "There was an error in the question extraction, so I'm skipping this file.\n"
 sqlite3 "$DB" 'DROP TABLE current;'
