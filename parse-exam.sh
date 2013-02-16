@@ -9,7 +9,6 @@ fi
 DB=/tmp/history-regents.db
 exam_file="$1"
 tmp=$(mktemp)
-tmp=/tmp/a
 
 # Convert to text
 pdftotext "$exam_file" "$tmp"
@@ -19,6 +18,7 @@ sed -n -i '/^Directions.*50.*:/,/^P[aA][rR][tT] II$/ p' "$tmp"
 
 # Put in the database.
 ./parse-part_ii.py "$DB" "$tmp"
+rm "$tmp"
 
 # Put it in the right table.
 sqlite3 "$DB" < schema.sql

@@ -25,7 +25,6 @@ def parse_question(question):
         answer = None
         if re.match(r'^\([1234]\) .+', line):
             answer = line[1]
-            print line
             row['answer' + answer] += line[4:]
         elif answer:
             answer['answer' + answer] += line
@@ -44,7 +43,7 @@ def main():
     examfile = sys.argv[2]
     dbfile = sys.argv[1]
 
-    if not all(map(os.path.isfile, sys.argv[1:])):
+    if not os.path.isfile(examfile):
         print usage
         exit(2)
 
