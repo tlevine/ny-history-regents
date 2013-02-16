@@ -13,4 +13,7 @@ Parse all of the US history regents.
 
     ./parse-us.sh
 
+Then export to csv.
+
+    sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > history-regents.csv
 
