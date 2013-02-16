@@ -23,7 +23,10 @@ def parse_question(question):
         'answer4': '',
     }
     for line in question.split('\n'):
-        line += '\n'
+        # Make all white space into a space.
+        line = ' '.join(line.split()) + '\n'
+
+        # Remember that we haven't starded answers yet.
         answer = False
 
         if re.match(r'^\([1234]\) .+', line):
@@ -37,7 +40,7 @@ def parse_question(question):
 
         elif row['question'] == '':
             # Start a question.
-            row['question'] = re.sub(r'^[^a-zA-Z ].* ', '', line)
+            row['question'] = re.sub(r'^[0-9]+ ', '', line)
 
         else:
             # Continue a question.
