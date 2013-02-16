@@ -7,13 +7,11 @@ def parse(f):
     'Parse the part II given the file handle.'
     questions = ['']
     for line in f:
-        if line == '\n':
-            questions.append('')
-        elif re.match(r'[0-9]{1,2} .+', line):
+        if re.match(r'[0-9]{1,2} .+', line):
             questions.append(line)
         else:
             questions[-1] += line
-    return questions
+    return questions[1:]
 
 def main():
     import sys
@@ -29,7 +27,6 @@ def main():
 
     d = parse(open(sys.argv[1]))
 
-    print sys.argv[1]
     print d
 
 if __name__ == '__main__':
