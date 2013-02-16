@@ -16,18 +16,32 @@ def questionize(f):
 def parse_question(question):
     row = {
         'number': int(question.split(' ')[0]),
+        'question': '',
         'answer1': '',
         'answer2': '',
         'answer3': '',
         'answer4': '',
     }
     for line in question.split('\n'):
-        answer = None
+        line += '\n'
+        answer = False
+
         if re.match(r'^\([1234]\) .+', line):
+            # Start an answer.
             answer = line[1]
             row['answer' + answer] += line[4:]
+
         elif answer:
-            answer['answer' + answer] += line
+            # Continue an answer.
+            row['answer' + answer] += line
+
+        elif row['question'] == '':
+            # Start a question.
+            row['question'] = re.sub(r'^[^a-zA-Z ].* ', '', line)
+
+        else:
+            # Continue a question.
+            row['question'] += line
 
     return row
 

@@ -25,7 +25,7 @@ sqlite3 "$DB" < schema.sql
 sqlite3 "$DB" "
 BEGIN TRANSACTION;
 UPDATE current SET examfile = '$exam_file';
-INSERT INTO question (examfile, \"number\", answer1, answer2, answer3, answer4)
-  SELECT examfile, \"number\", answer1, answer2, answer3, answer4 FROM current;
+INSERT INTO question (examfile, \"number\", question, answer1, answer2, answer3, answer4)
+  SELECT examfile, \"number\", question, answer1, answer2, answer3, answer4 FROM current;
 COMMIT;" || echo "There was an error in the question extraction, so I'm skipping this file.\n"
-sqlite3 "$DB" 'DROP TABLE CURRENT;'
+sqlite3 "$DB" 'DROP TABLE current;'
