@@ -10,11 +10,11 @@ def download_parse_index(index_url, index_filename):
 
     html = lxml.html.parse(index_filename)
     html.getroot().make_links_absolute(index_url)
-    print html.xpath('//a/@href')
+    test_urls = filter(lambda href: href[-4:] in ('.pdf', '.xls'), html.xpath('//a/@href'))
 
 def main():
     download_parse_index('http://www.nysedregents.org/USHistoryGov/home.html', 'us.html')
-    download_parse_index('http://www.nysedregents.org/GlobalHistoryGeography', 'global.html')
+#   download_parse_index('http://www.nysedregents.org/GlobalHistoryGeography', 'global.html')
 
 if __name__ == '__main__':
     main()
