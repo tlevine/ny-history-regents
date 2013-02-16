@@ -9,6 +9,8 @@ def parse(f):
     for line in f:
         if line == '\n':
             questions.append('')
+        elif re.match(r'[0-9]{1,2} .+', line):
+            questions.append(line)
         else:
             questions[-1] += line
     return questions
@@ -26,6 +28,8 @@ def main():
         exit(2)
 
     d = parse(open(sys.argv[1]))
+
+    print sys.argv[1]
     print d
 
 if __name__ == '__main__':
