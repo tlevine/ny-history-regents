@@ -13,8 +13,13 @@ def index_to_files(index_url):
     return test_urls
 
 def main():
-    print index_to_files('http://www.nysedregents.org/USHistoryGov/home.html')
-    print index_to_files('http://www.nysedregents.org/GlobalHistoryGeography')
+    INDEX_URLS = [
+        'http://www.nysedregents.org/USHistoryGov/home.html',
+        'http://www.nysedregents.org/GlobalHistoryGeography',
+    ]
+    for index_URL in INDEX_URLS:
+        for test_url in index_to_files(index_url):
+            hardhat.get(test_url)
 
 if __name__ == '__main__':
     main()
