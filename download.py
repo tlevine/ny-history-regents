@@ -10,6 +10,7 @@ def index_to_files(index_url):
     html = lxml.html.fromstring(raw)
     html.make_links_absolute(index_url)
     test_urls = filter(lambda href: href[-4:] in ('.pdf', '.xls'), html.xpath('//a/@href'))
+    print len(test_urls)
     return test_urls
 
 def main():
