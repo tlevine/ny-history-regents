@@ -7,22 +7,17 @@ exam() {
   echo $exam
   echo $scoringkey
   [ -f "$exam" ] && [ -f "$scoringkey" ] && ./parse-exam.sh "$exam" "$scoringkey"
+  echo
 }
 
-# for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*scoringkeyIandII.pdf); do
-#   exam "$scoringkey"
-# done
-
-# for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*scoringkey.pdf); do
-#   exam "$scoringkey"
-# done
-
-for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*key.pdf); do
-  echo Scoring key: "$scoringkey"
-  # [ -z $scoringkey
+for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*scoringkeyIandII.pdf); do
   exam "$scoringkey"
-  echo
 done
 
-echo
-echo
+for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*scoringkey.pdf); do
+  exam "$scoringkey"
+done
+
+for scoringkey in $(ls downloads/www.nysedregents.org/USHistoryGov/Archive/*key.pdf); do
+  exam "$scoringkey"
+done
