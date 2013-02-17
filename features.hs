@@ -1,5 +1,7 @@
 -- Extract features
 import qualified Data.Set as S
+import Database.HDBC.Sqlite3 (connectSqlite3)
+import Database.HDBC
 
 -- An answer to a question
 data Answer = Answer { file :: String
@@ -36,5 +38,33 @@ sumLevenshtein answers thisAnswer = sum $ map (levenshtein thisAnswer) $ answers
 
 a = [ "increasing factory employment opportunities placing blame only on civilian leaders", "encouraging immigration from Africa forcing nations to pay for war damages", "focusing attention on artistic contributions returning conquered territories to their", "bringing an end to legalized racial segregation holding individuals accountable for their war"]
 
-main = do
+query :: Int -> IO ()
+query maxId = 
+    do -- Connect to the database
+       conn <- connectSqlite3 "/tmp/history-regents.db"
+
+       -- Run the query and store the results in r
+       r <- quickQuery' conn "SELECT * from question"
+
+       -- Convert each row into a String
+       let stringRows = map convRow r
+                        
+       -- Print the rows out
+       mapM_ putStrLn stringRows
+
+       -- And disconnect from the database
+       disconnect conn
+
+    where convRow :: [SqlValue] -> String
+          convRow [sqlId, sqlDesc] = 
+              show intid ++ ": " ++ desc
+              where intid = (fromSql sqlId)::Integer
+                    desc = case fromSql sqlDesc of
+                             Just x -> x
+                             Nothing -> "NULL"
+          convRow x = fail $ "Unexpected result: " ++ show x
+
+main' = do
   putStrLn $ show $ sumLevenshtein a "encouraging immigration from Africa forcing nations to pay for war damages"
+
+main = query
