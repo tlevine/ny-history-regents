@@ -18,7 +18,7 @@ data Answer = Answer { file :: String
 } deriving (Show)
 
 -- All of the answers for a question
-type Question = M.Map Int Answer
+type Question = M.Map Integer Answer
 
 levenshtein :: String -> String -> Int
 levenshtein s t = d!!(length s)!!(length t) 
@@ -32,7 +32,7 @@ sumLevenshtein :: Question -> Answer -> Int
 sumLevenshtein answers thisAnswer = sum $ map (levenshtein thisAnswer) $ answers
   where
     thisAnswerStr = answer thisAnswer
-    answersStr = map (\a -> answers a) $ map (\a -> snd a) $ M.toList answers
+    answersStr = map (\a -> answer a) $ map (\a -> snd a) $ M.toList answers
 
 --isAbsolute :: String -> Bool
 --isAbsolute word = S.member word absolutes
@@ -73,8 +73,8 @@ main = do
   let question = last $ take 10 questions
   let questionAnswers = M.fromList $ map (\a -> (choice a, a)) question
 
-  -- putStrLn $ show $ questionAnswers
-  putStrLn $ show $ M.map (sumLevenshtein questionAnswers) questionAnswers
+  putStrLn $ show $ questionAnswers
+  --putStrLn $ show $ M.map (sumLevenshtein questionAnswers) questionAnswers
 
   -- And disconnect from the database
   disconnect conn
