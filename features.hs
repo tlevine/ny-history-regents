@@ -1,4 +1,5 @@
 -- Extract features
+import System.IO
 import qualified Data.Set as S
 import Database.HDBC.Sqlite3 (connectSqlite3)
 import Database.HDBC
@@ -38,10 +39,11 @@ sumLevenshtein answers thisAnswer = sum $ map (levenshtein thisAnswer) $ answers
 
 a = [ "increasing factory employment opportunities placing blame only on civilian leaders", "encouraging immigration from Africa forcing nations to pay for war damages", "focusing attention on artistic contributions returning conquered territories to their", "bringing an end to legalized racial segregation holding individuals accountable for their war"]
 
-answerQuery = "SELECT examfile, \"number\", question, answer, isCorrect FROM answer;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
+answerQuery = "SELECT examfile, \"number\", question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
-convRow :: [SqlValue] -> Answer
-convRow [examfile, number, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
+convAnswer :: [SqlValue] -> Answer
+convAnswer [examfile, number, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
                                                                  , number  = (fromSql number) :: Integer
                                                                  , question = (fromSql question) :: String
                                                                  , answer = (fromSql answer) :: String
@@ -49,19 +51,19 @@ convRow [examfile, number, question, answer, isCorrect] = Answer { file  = (from
 }
 
 main :: IO ()
-main = 
-    do -- Connect to the database
-       conn <- connectSqlite3 "/tmp/history-regents.db"
+main = do
+  conn <- connectSqlite3 "/tmp/history-regents.db"
+  
+  rQuestions <- quickQuery' conn questionQuery []
+  let rAnswers = mapM_ (\question -> quickQuery' conn answerQuery question) rQuestions
 
-       -- Run the query and store the results in r
-       r <- quickQuery' conn answerQuery []
+  --rAnswers
+  --let answers = map (\rAnswer -> map convAnswer rAnswer) rAnswers
+  
+  -- Print the rows out
+  -- mapM_ (\r -> putStrLn $ answer r) answers
+  
+  -- And disconnect from the database
+  disconnect conn
 
-       -- Convert each row into a String
-       let stringRows = map convRow r
-                        
-       -- Print the rows out
-       mapM_ (\r -> putStrLn $ answer r) stringRows
-
-       -- And disconnect from the database
-       disconnect conn
 
