@@ -9,3 +9,15 @@ CREATE TABLE IF NOT EXISTS question (
     correct_choice INTEGER,
     UNIQUE(examfile, "number")
 );
+
+CREATE VIEW IF NOT EXISTS question_notnull AS
+SELECT * from question WHERE correct_choice NOT NULL;
+
+CREATE VIEW IF NOT EXISTS answer AS
+SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 1 AS 'isCorrect' FROM question_notnull
+UNION
+SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 2 AS 'isCorrect' FROM question_notnull
+UNION
+SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 3 AS 'isCorrect' FROM question_notnull
+UNION
+SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 4 AS 'isCorrect' FROM question_notnull;
