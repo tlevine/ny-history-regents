@@ -44,7 +44,7 @@ query =
        conn <- connectSqlite3 "/tmp/history-regents.db"
 
        -- Run the query and store the results in r
-       r <- quickQuery' conn "SELECT answer from question" []
+       r <- quickQuery' conn "SELECT answer1 from question" []
 
        -- Convert each row into a String
        let stringRows = map convRow r
