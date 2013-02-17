@@ -38,13 +38,15 @@ sumLevenshtein answers thisAnswer = sum $ map (levenshtein thisAnswer) $ answers
 
 a = [ "increasing factory employment opportunities placing blame only on civilian leaders", "encouraging immigration from Africa forcing nations to pay for war damages", "focusing attention on artistic contributions returning conquered territories to their", "bringing an end to legalized racial segregation holding individuals accountable for their war"]
 
+answerQuery = "SELECT examfile, \"number\", question, answer, isCorrect FROM answer;"
+
 main :: IO ()
 main = 
     do -- Connect to the database
        conn <- connectSqlite3 "/tmp/history-regents.db"
 
        -- Run the query and store the results in r
-       r <- quickQuery' conn "SELECT answer1 from question" []
+       r <- quickQuery' conn answerQuery []
 
        -- Convert each row into a String
        let stringRows = map convRow r
