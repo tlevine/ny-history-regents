@@ -16,7 +16,7 @@ data Answer = Answer { file :: String
 } deriving (Show)
 
 -- All of the answers for a question
-data Question = Set Answer
+-- data Question = Set Answer
 
 levenshtein :: String -> String -> Int
 levenshtein s t = d!!(length s)!!(length t) 
@@ -39,7 +39,7 @@ sumLevenshtein answers thisAnswer = sum $ map (levenshtein thisAnswer) $ answers
 
 a = [ "increasing factory employment opportunities placing blame only on civilian leaders", "encouraging immigration from Africa forcing nations to pay for war damages", "focusing attention on artistic contributions returning conquered territories to their", "bringing an end to legalized racial segregation holding individuals accountable for their war"]
 
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 10;"
 answerQuery = "SELECT examfile, \"number\", question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
 convAnswer :: [SqlValue] -> Answer
@@ -54,14 +54,14 @@ main :: IO ()
 main = do
   conn <- connectSqlite3 "/tmp/history-regents.db"
   
-  rQuestions <- quickQuery' conn questionQuery []
-  let rAnswers = mapM_ (\question -> quickQuery' conn answerQuery question) rQuestions
+  rQuestionIds <- quickQuery' conn questionQuery []
+  rQuestions <- mapM (\question -> quickQuery' conn answerQuery question) rQuestionIds
 
-  --rAnswers
-  --let answers = map (\rAnswer -> map convAnswer rAnswer) rAnswers
+  -- questions :: [Question]
+  let questions = map (\rQuestion -> map convAnswer rQuestion) rQuestions
   
   -- Print the rows out
-  -- mapM_ (\r -> putStrLn $ answer r) answers
+  putStrLn $ answer $ head $ head questions
   
   -- And disconnect from the database
   disconnect conn
