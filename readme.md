@@ -17,3 +17,7 @@ Then export to csv.
 
     sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > history-regents.csv
 
+
+## Results
+If I guess the answer that is Leveschtein-closest to the others,
+I get 254 of 795 correct, or about one-fourth. Boring.
