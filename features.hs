@@ -44,10 +44,10 @@ answerQuery = "SELECT examfile, \"number\", question, answer, isCorrect FROM ans
 
 convAnswer :: [SqlValue] -> Answer
 convAnswer [examfile, number, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
-                                                                 , number  = (fromSql number) :: Integer
-                                                                 , question = (fromSql question) :: String
-                                                                 , answer = (fromSql answer) :: String
-                                                                 , isCorrect  = (fromSql isCorrect) :: Bool
+                                                                    , number  = (fromSql number) :: Integer
+                                                                    , question = (fromSql question) :: String
+                                                                    , answer = (fromSql answer) :: String
+                                                                    , isCorrect  = (fromSql isCorrect) :: Bool
 }
 
 main :: IO ()
@@ -61,8 +61,14 @@ main = do
   let questions = map (\rQuestion -> map convAnswer rQuestion) rQuestions
   
   -- Print the rows out
-  putStrLn $ answer $ head $ head questions
-  
+  -- putStrLn $ show $ head $ head questions
+
+  -- Levenshtein distances
+  let question = last $ take 10 questions
+  let questionAnswers = map (\a -> answer a) question
+  putStrLn $ show $ length question
+  putStrLn $ show $ map (sumLevenshtein questionAnswers) questionAnswers
+
   -- And disconnect from the database
   disconnect conn
 
