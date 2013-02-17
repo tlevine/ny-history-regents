@@ -32,7 +32,7 @@ sumLevenshtein answers thisAnswer = sum $ map (levenshtein $ answer thisAnswer) 
   where
     thisAnswerStr = answer thisAnswer
 
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 10;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
 convAnswer :: [SqlValue] -> Answer
@@ -53,6 +53,14 @@ guess answers = (predictedChoice, predictionCorrect)
     predictedChoice = fst $ head $ filter (\these -> snd these == dMin) $ zip [1..(length answers)] $ distances
     predictionCorrect = isCorrect $ last $ take predictedChoice answers
 
+-- Score the results
+score :: [(Int, Bool)] -> Int
+score results = (foldl increment 0 results) -- / (length results)
+  where
+    increment :: Int -> (Int, Bool) -> Int
+    increment count (_, True) = count + 1
+    increment count (_, False) = count 
+
 main :: IO ()
 main = do
   conn <- connectSqlite3 "/tmp/history-regents.db"
@@ -67,8 +75,9 @@ main = do
   -- putStrLn $ show $ head $ head questions
 
   -- Levenshtein distances
-  let question = head $ questions
-  putStrLn $ show $ guess $ question
+  let results = map guess questions
+  putStrLn $ show $ results
+  putStrLn $ show $ score results
 
   -- And disconnect from the database
   disconnect conn
