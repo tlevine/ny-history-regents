@@ -16,8 +16,8 @@ SELECT * from question WHERE correct_choice NOT NULL;
 CREATE VIEW IF NOT EXISTS answer AS
 SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 1 AS 'isCorrect' FROM question_notnull
 UNION
-SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 2 AS 'isCorrect' FROM question_notnull
+SELECT examfile, "number", question, answer2 AS 'answer', correct_choice = 2 AS 'isCorrect' FROM question_notnull
 UNION
-SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 3 AS 'isCorrect' FROM question_notnull
+SELECT examfile, "number", question, answer3 AS 'answer', correct_choice = 3 AS 'isCorrect' FROM question_notnull
 UNION
-SELECT examfile, "number", question, answer1 AS 'answer', correct_choice = 4 AS 'isCorrect' FROM question_notnull;
+SELECT examfile, "number", question, answer4 AS 'answer', correct_choice = 4 AS 'isCorrect' FROM question_notnull;
