@@ -28,7 +28,7 @@ levenshtein s t = d!!(length s)!!(length t)
     distance 0 j = j
     distance i j = minimum [d!!(i-1)!!j+1, d!!i!!(j-1)+1, d!!(i-1)!!(j-1) + (if s!!(i-1)==t!!(j-1) then 0 else 1)]
 
-sumLevenshtein :: (M.Map Integer Question) -> Question -> Int
+sumLevenshtein :: Question -> Answer -> Int
 sumLevenshtein answers thisAnswer = sum $ map (levenshtein thisAnswer) $ answers
   where
     thisAnswerStr = answer thisAnswer
