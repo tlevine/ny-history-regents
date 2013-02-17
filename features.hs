@@ -7,8 +7,8 @@ import Database.HDBC
 
 -- An answer to a question
 data Answer = Answer { file :: String
-                     , number :: Integer
-                     , choice :: Integer
+                     , number :: Int
+                     , choice :: Int
                      , question :: String
                      , answer :: String
                      , isCorrect :: Bool
@@ -18,7 +18,7 @@ data Answer = Answer { file :: String
 } deriving (Show)
 
 -- All of the answers for a question
-type Question = M.Map Integer Answer
+type Question = M.Map Int Answer
 
 levenshtein :: String -> String -> Int
 levenshtein s t = d!!(length s)!!(length t) 
@@ -49,8 +49,8 @@ answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect 
 
 convAnswer :: [SqlValue] -> Answer
 convAnswer [examfile, number, choice, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
-                                                                             , number  = (fromSql number) :: Integer
-                                                                             , choice = (fromSql choice) :: Integer
+                                                                             , number  = (fromSql number) :: Int
+                                                                             , choice = (fromSql choice) :: Int
                                                                              , question = (fromSql question) :: String
                                                                              , answer = (fromSql answer) :: String
                                                                              , isCorrect  = (fromSql isCorrect) :: Bool
@@ -74,7 +74,13 @@ main = do
   let questionAnswers = M.fromList $ map (\a -> (choice a, a)) question
 
   putStrLn $ show $ questionAnswers
-  putStrLn $ show $ M.map (sumLevenshtein questionAnswers) questionAnswers
+
+  let choices = unzip $ M.toList $ M.map (sumLevenshtein questionAnswers) questionAnswers
+  let dMax = foldl max 0 $ snd choices
+  let dMin = foldl min dMax $ snd choices
+  putStrLn $ show dMin
+  putStrLn $ show choices
+  putStrLn $ show $ filter (\c -> snd c == dMin) $ M.toList $ M.map (sumLevenshtein questionAnswers) questionAnswers 
 
   -- And disconnect from the database
   disconnect conn
