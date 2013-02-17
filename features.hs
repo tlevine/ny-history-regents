@@ -5,13 +5,13 @@ import Database.HDBC
 
 -- An answer to a question
 data Answer = Answer { file :: String
-            , number :: Integer
-            , question :: String
-            , answer :: String
-            , isCorrect :: Bool
-
-            -- Features?
-            --, hasAbsolutes :: Bool
+                     , number :: Integer
+                     , question :: String
+                     , answer :: String
+                     , isCorrect :: Bool
+           
+                     -- Features?
+                     --, hasAbsolutes :: Bool
 } deriving (Show)
 
 -- All of the answers for a question
@@ -40,6 +40,14 @@ a = [ "increasing factory employment opportunities placing blame only on civilia
 
 answerQuery = "SELECT examfile, \"number\", question, answer, isCorrect FROM answer;"
 
+convRow :: [SqlValue] -> Answer
+convRow [examfile, number, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
+                                                                 , number  = (fromSql number) :: Integer
+                                                                 , question = (fromSql question) :: String
+                                                                 , answer = (fromSql answer) :: String
+                                                                 , isCorrect  = (fromSql isCorrect) :: Bool
+}
+
 main :: IO ()
 main = 
     do -- Connect to the database
@@ -52,10 +60,8 @@ main =
        let stringRows = map convRow r
                         
        -- Print the rows out
-       mapM_ putStrLn stringRows
+       mapM_ (\r -> putStrLn $ answer r) stringRows
 
        -- And disconnect from the database
        disconnect conn
 
-    where convRow :: [SqlValue] -> String
-          convRow [answer] = (fromSql answer) :: String
