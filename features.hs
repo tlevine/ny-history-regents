@@ -29,10 +29,10 @@ levenshtein s t = d!!(length s)!!(length t)
     distance i j = minimum [d!!(i-1)!!j+1, d!!i!!(j-1)+1, d!!(i-1)!!(j-1) + (if s!!(i-1)==t!!(j-1) then 0 else 1)]
 
 sumLevenshtein :: Question -> Answer -> Int
-sumLevenshtein answers thisAnswer = sum $ map (levenshtein $ answer thisAnswer) $ answers
+sumLevenshtein answers thisAnswer = sum $ map (levenshtein $ answer thisAnswer) $ map (\these -> answer $ snd these) $ M.toList answers
   where
     thisAnswerStr = answer thisAnswer
-    answersStr = map (\a -> answer a) $ map (\a -> snd a) $ M.toList answers
+    answersStr = map answer $ map (\a -> snd a) $ M.toList answers
 
 --isAbsolute :: String -> Bool
 --isAbsolute word = S.member word absolutes
@@ -74,7 +74,7 @@ main = do
   let questionAnswers = M.fromList $ map (\a -> (choice a, a)) question
 
   putStrLn $ show $ questionAnswers
-  --putStrLn $ show $ M.map (sumLevenshtein questionAnswers) questionAnswers
+  putStrLn $ show $ M.map (sumLevenshtein questionAnswers) questionAnswers
 
   -- And disconnect from the database
   disconnect conn
