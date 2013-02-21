@@ -29,10 +29,10 @@ I think that sentiment will tell us something. Question 43 from the January 2004
 
 > 43 The changes shown in the graph support the recent concerns of Americans about the
 >
-> 1) future of Social Security and Medicare
-> 2) return to an agrarian society
-> 3) surplus of health care workers
-> 4) shortage of schools and colleges
+> 1. future of Social Security and Medicare
+> 2. return to an agrarian society
+> 3. surplus of health care workers
+> 4. shortage of schools and colleges
 
 Without looking at the graph, I correctly guessed choice 1. The words "surplus" and "shortage" felt too strong,
 so narrowed it down to the first two choices. A return to an agrarian society seemed unreasonable, so I said 1.
@@ -56,10 +56,10 @@ I correctly excluded answers 1 and 2 from question 45 of January 2004 because th
 > 45 Which statement is most clearly supported by the
 > information in the graph?
 > 
-> 1) More children were under age 6 in 1990 than in 1950.
-> 2) Since 1990, women have made up more than half of the workforce.
-> 3) The gap between male and female incomes has declined.
-> 4) Fewer women are staying home to raise their young children.
+> 1. More children were under age 6 in 1990 than in 1950.
+> 2. Since 1990, women have made up more than half of the workforce.
+> 3. The gap between male and female incomes has declined.
+> 4. Fewer women are staying home to raise their young children.
 
 ### Equivalent answers lose.
 
@@ -74,10 +74,10 @@ As a side note, even after reading the headlines, I had no idea that these were 
 >
 > Which conclusion about the Constitutional Convention is best supported by these headlines?
 >
-> (1) The framers of the Constitution were able to compromise on important issues.
-> (2) States that were small in area would lose power in the new Constitution.
-> (3) States with large populations controlled the outcome of the convention.
-> (4) The president and Congress would have equal power under the new constitution.
+> 1. The framers of the Constitution were able to compromise on important issues.
+> 2. States that were small in area would lose power in the new Constitution.
+> 3. States with large populations controlled the outcome of the convention.
+> 4. The president and Congress would have equal power under the new constitution.
 
 ## Questions whose answers I can't guess well
 
