@@ -85,10 +85,10 @@ Question 20 of the January 2004 test
 
 > 20 The common purpose of these legislative acts was to
 >
-> 1) protect the nation’s natural resources
-> 2) improve conditions for recent immigrants to the United States
-> 3) advance the growth of big business
-> 4) promote the general welfare of the American public
+> 1. protect the nation’s natural resources
+> 2. improve conditions for recent immigrants to the United States
+> 3. advance the growth of big business
+> 4. promote the general welfare of the American public
 
 Maybe a hint is that "resources" and "conditions" are used in the table of legislative acts.
 I've generally seen that vocabularity is rarely repeated within an entire
