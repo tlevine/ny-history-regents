@@ -49,6 +49,25 @@ It might be related to the linguistic complexity, so here are some other things 
 * How fancy the words are
 * Number of adjectives
 
+### The conjunction "and" wins.
+
+Somewhat contrary to my suspicion that short answers win, I also suspect that
+the presense of the conjunction "and" normally occurs in correct answers. For
+question 30 of June 2007, I first eliminated 1 and 3 because they both included
+the same phraes "Latin American". Based on my shortness criterion, I would have
+chosen choice 4, but that didn't feel right, so I correctly chose choice 2.
+I still haven't looked at the map mentioned in the question.
+
+> 30 The conclusion that can best be supported by the
+> information on this map is that construction of
+> the Panama Canal was motivated by the desire of
+> the United States to
+> 
+> (1) raise the living standards of Latin American people
+> (2) increase naval mobility and expand overseas markets
+> (3) improve relations with Latin American and Asian nations
+> (4) maintain a policy of collective security
+
 ### Qualitative, abstract, synthesized statements about graphs win
 
 I correctly excluded answers 1 and 2 from question 45 of January 2004 because they sounded too quantitative.
