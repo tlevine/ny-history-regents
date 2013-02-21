@@ -48,3 +48,15 @@ It might be related to the linguistic complexity, so here are some other things 
 * Number of clauses
 * How fancy the words are
 * Number of adjectives
+
+### Qualitative, abstract, synthesized statements about graphs win
+
+I correctly excluded answers 1 and 2 from question 45 of January 2004 because they sounded too quantitative.
+
+> 45 Which statement is most clearly supported by the
+> information in the graph?
+> 
+> 1) More children were under age 6 in 1990 than in 1950.
+> 2) Since 1990, women have made up more than half of the workforce.
+> 3) The gap between male and female incomes has declined.
+> 4) Fewer women are staying home to raise their young children.
