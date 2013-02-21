@@ -60,3 +60,21 @@ I correctly excluded answers 1 and 2 from question 45 of January 2004 because th
 > 2) Since 1990, women have made up more than half of the workforce.
 > 3) The gap between male and female incomes has declined.
 > 4) Fewer women are staying home to raise their young children.
+
+### Equivalent answers lose.
+
+Without reading the three headlines, I correctly guessed choice 1 because the others were all equivalent.
+As a side note, even after reading the headlines, I had no idea that these were talking about compromises.
+
+> 2
+>
+> * "New Congress to Have Two Houses"
+> * "Slaves to Count as Three-Fifths of a Person"
+> * "President to be Chosen by Electoral Vote"
+>
+> Which conclusion about the Constitutional Convention is best supported by these headlines?
+>
+> (1) The framers of the Constitution were able to compromise on important issues.
+> (2) States that were small in area would lose power in the new Constitution.
+> (3) States with large populations controlled the outcome of the convention.
+> (4) The president and Congress would have equal power under the new constitution.
