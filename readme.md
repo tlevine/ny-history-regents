@@ -78,3 +78,14 @@ As a side note, even after reading the headlines, I had no idea that these were 
 > (2) States that were small in area would lose power in the new Constitution.
 > (3) States with large populations controlled the outcome of the convention.
 > (4) The president and Congress would have equal power under the new constitution.
+
+## Questions whose answers I can't guess well
+
+Question 20 of the January 2004 test
+
+> 20 The common purpose of these legislative acts was to
+>
+> 1) protect the nation’s natural resources
+> 2) improve conditions for recent immigrants to the United States
+> 3) advance the growth of big business
+> 4) promote the general welfare of the American public
