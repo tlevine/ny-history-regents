@@ -125,3 +125,14 @@ document above.
 > (2) Manhattan Project → Lend-Lease Act
 > (3) Holocaust → Nuremberg War Crimes trials
 > (4) Germany's invasion of Poland → Munich Conference
+
+### Question 42 of the June 2007 test
+
+> 42 In the Camp David Accords (1978), President
+> Jimmy Carter succeeded in
+> (1) returning the Panama Canal Zone to Panama
+> (2) suspending grain sales to the Soviet Union
+> and China
+> (3) providing a foundation for a peace treaty
+> between Egypt and Israel
+> (4) freeing hostages being held in Iran
