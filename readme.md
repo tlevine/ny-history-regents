@@ -89,3 +89,7 @@ Question 20 of the January 2004 test
 > 2) improve conditions for recent immigrants to the United States
 > 3) advance the growth of big business
 > 4) promote the general welfare of the American public
+
+Maybe a hint is that "resources" is used in the table of legislative acts.
+I've generally seen that vocabularity is rarely repeated within an entire
+test, so repeating vocabulary might be an attempt to trick students.
