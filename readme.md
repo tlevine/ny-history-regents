@@ -100,7 +100,7 @@ As a side note, even after reading the headlines, I had no idea that these were 
 
 ## Questions whose answers I can't guess well
 
-Question 20 of the January 2004 test
+### Question 20 of the January 2004 test
 
 > 20 The common purpose of these legislative acts was to
 >
@@ -112,3 +112,16 @@ Question 20 of the January 2004 test
 Maybe a hint is that "resources" and "conditions" are used in the table of legislative acts.
 I've generally seen that vocabularity is rarely repeated within an entire
 test, so repeating vocabulary might be an attempt to trick students.
+
+### Question 36 of the June 2007 test
+Compared to other questions, this was quite easy for me to guess, but it
+involved my knowledge of history and not my knowledge of the trends I
+document above.
+
+> 36 In which pair of events is the second event a
+> response to the first?
+>
+> (1) Truman Doctrine → D-Day Invasion
+> (2) Manhattan Project → Lend-Lease Act
+> (3) Holocaust → Nuremberg War Crimes trials
+> (4) Germany's invasion of Poland → Munich Conference
