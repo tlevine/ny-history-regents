@@ -13,10 +13,14 @@ Parse all of the US history regents.
 
     ./parse-us.sh
 
-Then export to csv.
+Extract the features
 
-    sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > history-regents.csv
+    ghc features.hs && echo Running features ... && ./features
 
+Export to csv if you like.
+
+    sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > question.csv
+    sqlite3 -csv -header /tmp/history-regents.db 'select * from answer_features;' > answer.csv
 
 ## Results
 If I guess the answer that is Leveschtein-closest to the others,
