@@ -18,9 +18,9 @@ data Answer = Answer { file :: String
 type Question = [Answer]
 
 -- Helpers
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer_info;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
-featureQuery = "INSERT INTO answer_features VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+featureQuery = "INSERT INTO answer_feature VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
 convAnswer :: [SqlValue] -> Answer
 convAnswer [examfile, number, choice, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
