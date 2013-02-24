@@ -14,25 +14,13 @@ data Answer = Answer { file :: String
                      , isCorrect :: Bool
 } deriving (Show)
 
-data AnswerFeatures = AnswerFeatures { file' :: String
-                                     , number' :: Int
-                                     , choice' :: Int
-                           
-                                     -- Features?
-                                     , sumLevenshtein :: Int
-                                     , nCharacters :: Int
-                                     , nWords :: Int
-                                     , containsCommonWord :: Bool
-                                     , isQualitativeAnswerAboutGraph :: Bool
-} deriving (Show)
-
 -- All of the answers for a question
 type Question = [Answer]
-type QuestionFeatures = [AnswerFeatures]
 
 -- Helpers
 questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 4;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
+featureQuery = "INSERT INTO answer_features VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
 convAnswer :: [SqlValue] -> Answer
 convAnswer [examfile, number, choice, question, answer, isCorrect] = Answer { file  = (fromSql examfile) :: String
@@ -91,16 +79,17 @@ getIsQualitativeAnswerAboutGraph a = graph && qualitative
 
 
 ----------------------------------------------------------------------------------
-extractFeatures :: Question -> QuestionFeatures
-extractFeatures q = map (\a -> AnswerFeatures { file' = file a
-                                              , number'  = number a
-                                              , choice' = choice a
-                                              , sumLevenshtein = getSumLevenshtein q a
-                                              , nCharacters = getNCharacters (answer a)
-                                              , nWords = getNWords (answer a)
-                                              , containsCommonWord = getContainsCommonWord (question a) (answer a)
-                                              , isQualitativeAnswerAboutGraph = getIsQualitativeAnswerAboutGraph a
-                                              }) q
+extractFeatures :: Question -> [(String, Int, Int, Int, Int, Int, Bool, Bool)]
+extractFeatures q = map (\a -> ( file a
+                               , number a
+                               , choice a
+                               , getSumLevenshtein q a
+                               , getNCharacters (answer a)
+                               , getNWords (answer a)
+                               , getContainsCommonWord (question a) (answer a)
+                               , getIsQualitativeAnswerAboutGraph a
+                               )) q
+
 
 -- Create a table with the features.
 main :: IO ()
@@ -131,6 +120,11 @@ main = do
   --putStrLn $ show $ foldr S.union S.empty $ concat w
 
   putStrLn $ show $ concat $ map extractFeatures questions
+
+  stmt <- prepare conn featureQuery
+--executeMany stmt 
+--[[toSql 5, toSql "five's nice"], [toSql 6, SqlNull]]
+--commit conn
 
   -- And disconnect from the database
   disconnect conn

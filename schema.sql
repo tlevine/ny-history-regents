@@ -10,6 +10,17 @@ CREATE TABLE IF NOT EXISTS question (
     UNIQUE(examfile, "number")
 );
 
+CREATE TABLE IF NOT EXISTS answer_features (
+  examfile TEXT NOT NULL,
+  "number" INTEGER NOT NULL,
+  choice INTEGER NOT NULL,
+  sumLevenshtein INTEGER NOT NULL,
+  nCharacters INTEGER NOT NULL,
+  nWords INTEGER NOT NULL,
+  containsCommonWord INTEGER NOT NULL,
+  isQualitativeAnswerAboutGraph INTEGER NOT NULL
+);
+
 CREATE VIEW IF NOT EXISTS question_notnull AS
 SELECT * from question WHERE correct_choice NOT NULL;
 
