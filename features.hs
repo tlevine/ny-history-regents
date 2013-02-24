@@ -76,20 +76,34 @@ commonWords :: String -> String -> S.Set String
 commonWords a b = S.difference (S.intersection (w a) (w b)) stopWords
   where
     w t = S.fromList $ words t
-    stopWords = S.fromList ["in", "the", "of", "to", "and", "The", "are", "from", "is", "In", "be", "all", "an", "are", "as", "at", "In", "its", "was", "were", "than","that",]
+    stopWords = S.fromList ["in", "the", "of", "to", "and", "The", "are", "from", "is", "In", "be", "all", "an", "are", "as", "at", "In", "its", "was", "were", "than", "that"]
 
 getContainsCommonWord :: String -> String -> Bool
-getContainsCommonWord a b = (> 0) $ S.length $ commonWords a b
+getContainsCommonWord a b = (> 0) $ S.size $ commonWords a b
 
 -- Qualitative answer about a graph question
 getIsQualitativeAnswerAboutGraph :: Answer -> Bool
 getIsQualitativeAnswerAboutGraph a = graph && qualitative
   where
     graph = ((> 0) $ length $ filter (== "graph") $ words $ question a)
-    qualitative = (== 0) $ S.length $ S.intersection (S.fromList "1234567890") (S.fromList $ answer a)
+    qualitative = (== 0) $ S.size $ S.intersection (S.fromList "1234567890") (S.fromList $ answer a)
 
 
 ----------------------------------------------------------------------------------
+extractFeatures :: Question -> Question
+extractFeatures q = map (\a -> Answer { file  = file a
+                                      , number  = number a
+                                      , choice = choice a
+                                      , question = question a
+                                      , answer = answer a
+                                      , isCorrect  = isCorrect a
+                                      , sumLevenshtein = getSumLevenshtein q a
+                                      , nCharacters = getNCharacters (answer a)
+                                      , nWords = getNWords (answer a)
+                                      , containsCommonWord = getContainsCommonWord (question a) (answer a)
+                                      , isQualitativeAnswerAboutGraph = getIsQualitativeAnswerAboutGraph a
+                                      }) q
+
 -- Create a table with the features.
 main :: IO ()
 main = do
@@ -115,8 +129,10 @@ main = do
   --putStrLn $ show $ map (length . answer) $ head questions
 
   -- List the common words to find stopwords
-  let w = map (map (\a -> commonWords (question a) (answer a))) questions
-  putStrLn $ show $ foldr S.union S.empty $ concat w
+  --let w = map (map (\a -> commonWords (question a) (answer a))) questions
+  --putStrLn $ show $ foldr S.union S.empty $ concat w
+
+  
 
   -- And disconnect from the database
   disconnect conn
