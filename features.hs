@@ -14,9 +14,11 @@ data Answer = Answer { file :: String
                      , isCorrect :: Bool
            
                      -- Features?
+                     , sumLevenshtein :: Maybe Int
                      , nCharacters :: Maybe Int
                      , nWords :: Maybe Int
-                     , sumLevenshtein :: Maybe Int
+                     , containsCommonWord :: Maybe Bool
+                     , isQualitativeAnswerAboutGraph :: Maybe Bool
 } deriving (Show)
 
 -- All of the answers for a question
@@ -33,9 +35,11 @@ convAnswer [examfile, number, choice, question, answer, isCorrect] = Answer { fi
                                                                              , question = (fromSql question) :: String
                                                                              , answer = (fromSql answer) :: String
                                                                              , isCorrect  = (fromSql isCorrect) :: Bool
+                                                                             , sumLevenshtein = Nothing
                                                                              , nCharacters = Nothing
                                                                              , nWords = Nothing
-                                                                             , sumLevenshtein = Nothing
+                                                                             , containsCommonWord = Nothing
+                                                                             , isQualitativeAnswerAboutGraph = Nothing
 }
 
 levenshtein :: String -> String -> Int
