@@ -20,7 +20,7 @@ Extract the features
 Export to csv if you like.
 
     sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > question.csv
-    sqlite3 -csv -header /tmp/history-regents.db 'select * from answer_features;' > answer.csv
+    sqlite3 -csv -header /tmp/history-regents.db 'select * from answer;' > answer.csv
 
 ## Results
 If I guess the answer that is Leveschtein-closest to the others,
