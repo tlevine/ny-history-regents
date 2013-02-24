@@ -12,17 +12,26 @@ data Answer = Answer { file :: String
                      , question :: String
                      , answer :: String
                      , isCorrect :: Bool
-           
-                     -- Features?
-                     , sumLevenshtein :: Maybe Int
-                     , nCharacters :: Maybe Int
-                     , nWords :: Maybe Int
-                     , containsCommonWord :: Maybe Bool
-                     , isQualitativeAnswerAboutGraph :: Maybe Bool
+} deriving (Show)
+
+data AnswerFeatures = AnswerFeatures { file :: String
+                                     , number :: Int
+                                     , choice :: Int
+                                     , question :: String
+                                     , answer :: String
+                                     , isCorrect :: Bool
+                           
+                                     -- Features?
+                                     , sumLevenshtein :: Int
+                                     , nCharacters :: Int
+                                     , nWords :: Int
+                                     , containsCommonWord :: Bool
+                                     , isQualitativeAnswerAboutGraph :: Bool
 } deriving (Show)
 
 -- All of the answers for a question
 type Question = [Answer]
+type QuestionFeatures = [AnswerFeatures]
 
 -- Helpers
 questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
@@ -35,11 +44,6 @@ convAnswer [examfile, number, choice, question, answer, isCorrect] = Answer { fi
                                                                              , question = (fromSql question) :: String
                                                                              , answer = (fromSql answer) :: String
                                                                              , isCorrect  = (fromSql isCorrect) :: Bool
-                                                                             , sumLevenshtein = Nothing
-                                                                             , nCharacters = Nothing
-                                                                             , nWords = Nothing
-                                                                             , containsCommonWord = Nothing
-                                                                             , isQualitativeAnswerAboutGraph = Nothing
 }
 
 levenshtein :: String -> String -> Int
@@ -90,19 +94,19 @@ getIsQualitativeAnswerAboutGraph a = graph && qualitative
 
 
 ----------------------------------------------------------------------------------
-extractFeatures :: Question -> Question
-extractFeatures q = map (\a -> Answer { file  = file a
-                                      , number  = number a
-                                      , choice = choice a
-                                      , question = question a
-                                      , answer = answer a
-                                      , isCorrect  = isCorrect a
-                                      , sumLevenshtein = getSumLevenshtein q a
-                                      , nCharacters = getNCharacters (answer a)
-                                      , nWords = getNWords (answer a)
-                                      , containsCommonWord = getContainsCommonWord (question a) (answer a)
-                                      , isQualitativeAnswerAboutGraph = getIsQualitativeAnswerAboutGraph a
-                                      }) q
+extractFeatures :: Question -> QuestionFeatures
+extractFeatures q = map (\a -> AnswerFeatures { file  = file a
+                                              , number  = number a
+                                              , choice = choice a
+                                              , question = question a
+                                              , answer = answer a
+                                              , isCorrect  = isCorrect a
+                                              , sumLevenshtein = getSumLevenshtein q a
+                                              , nCharacters = getNCharacters (answer a)
+                                              , nWords = getNWords (answer a)
+                                              , containsCommonWord = getContainsCommonWord (question a) (answer a)
+                                              , isQualitativeAnswerAboutGraph = getIsQualitativeAnswerAboutGraph a
+                                              }) q
 
 -- Create a table with the features.
 main :: IO ()
