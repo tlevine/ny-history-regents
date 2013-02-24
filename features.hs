@@ -19,7 +19,7 @@ type Question = [Answer]
 
 -- Helpers
 questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer_info;"
-answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
+answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer_info WHERE examfile = ? AND \"number\" = ?;"
 featureQuery = "INSERT INTO answer_feature VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
 convAnswer :: [SqlValue] -> Answer
