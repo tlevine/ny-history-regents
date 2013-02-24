@@ -22,19 +22,7 @@ data Answer = Answer { file :: String
 -- All of the answers for a question
 type Question = [Answer]
 
-levenshtein :: String -> String -> Int
-levenshtein s t = d!!(length s)!!(length t) 
-  where
-    d = [[distance m n|n<-[0..length t]]|m<-[0..length s]]
-    distance i 0 = i
-    distance 0 j = j
-    distance i j = minimum [d!!(i-1)!!j+1, d!!i!!(j-1)+1, d!!(i-1)!!(j-1) + (if s!!(i-1)==t!!(j-1) then 0 else 1)]
-
-getSumLevenshtein :: Question -> Answer -> Int
-getSumLevenshtein answers thisAnswer = sum $ map (levenshtein $ answer thisAnswer) $ map answer answers
-  where
-    thisAnswerStr = answer thisAnswer
-
+-- Helpers
 questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 3;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
@@ -45,29 +33,35 @@ convAnswer [examfile, number, choice, question, answer, isCorrect] = Answer { fi
                                                                              , question = (fromSql question) :: String
                                                                              , answer = (fromSql answer) :: String
                                                                              , isCorrect  = (fromSql isCorrect) :: Bool
+                                                                             , nCharacters = Nothing
+                                                                             , nWords = Nothing
+                                                                             , sumLevenshtein = Nothing
 }
 
-guess :: Question -> (Int, Bool)
-guess answers = (predictedChoice, predictionCorrect)
+levenshtein :: String -> String -> Int
+levenshtein s t = d!!(length s)!!(length t) 
   where
-    distances = map (getSumLevenshtein answers) answers
-    dMax = foldl max 0 distances
-    dMin = foldl min dMax distances
-    predictedChoice = fst $ head $ filter (\these -> snd these == dMin) $ zip [1..(length answers)] $ distances
-    predictionCorrect = isCorrect $ last $ take predictedChoice answers
+    d = [[distance m n|n<-[0..length t]]|m<-[0..length s]]
+    distance i 0 = i
+    distance 0 j = j
+    distance i j = minimum [d!!(i-1)!!j+1, d!!i!!(j-1)+1, d!!(i-1)!!(j-1) + (if s!!(i-1)==t!!(j-1) then 0 else 1)]
 
--- Score the results
-score :: [(Int, Bool)] -> Int
-score results = (foldl increment 0 results) -- / (length results)
-  where
-    increment :: Int -> (Int, Bool) -> Int
-    increment count (_, True) = count + 1
-    increment count (_, False) = count 
+-- Features
+----------------------------------------------------------------------------------
+
+-- Sum of Levenshtein distances
+getSumLevenshtein :: Question -> Answer -> Int
+getSumLevenshtein answers thisAnswer = sum $ map (levenshtein $ answer thisAnswer) $ map answer answers
 
 -- Count by word
 wordCount :: String -> M.Map String Int
 wordCount textString = foldr (\a b -> M.insertWith (+) a 1 b) M.empty $ words textString
 
+-- 
+
+
+----------------------------------------------------------------------------------
+-- Create a table with the features.
 main :: IO ()
 main = do
   conn <- connectSqlite3 "/tmp/history-regents.db"
