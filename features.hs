@@ -23,7 +23,7 @@ data Answer = Answer { file :: String
 type Question = [Answer]
 
 -- Helpers
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 20;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
 convAnswer :: [SqlValue] -> Answer
@@ -72,7 +72,7 @@ commonWords :: String -> String -> S.Set String
 commonWords a b = S.difference (S.intersection (w a) (w b)) stopWords
   where
     w t = S.fromList $ words t
-    stopWords = S.fromList ["in", "the", "of", "to", "and"]
+    stopWords = S.fromList ["in", "the", "of", "to", "and", "The", "are", "from", "is", "In", "be", "all", "an", "are", "as", "at", "In", "its", "was", "were", "than","that",]
 
 --getContainsCommonWord :: String -> String -> Bool
 
@@ -101,6 +101,8 @@ main = do
   --putStrLn $ show $ foldl (M.unionWith (+)) M.empty $ map wordCount $ map answer $ head questions
   
   --putStrLn $ show $ map (length . answer) $ head questions
+
+  -- List the common words to find stopwords
   let w = map (map (\a -> commonWords (question a) (answer a))) questions
   putStrLn $ show $ foldr S.union S.empty $ concat w
 
