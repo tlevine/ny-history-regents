@@ -35,7 +35,17 @@ UNION
 SELECT examfile, "number", question, answer4 AS 'answer', 4 AS 'choice', correct_choice = 4 AS 'isCorrect' FROM question_notnull;
 
 CREATE VIEW IF NOT EXISTS answer AS
-SELECT * FROM answer_feature
+SELECT
+  answer_feature."examfile",
+  answer_feature."number",
+  answer_feature."choice",
+  answer_info."isCorrect",
+  answer_feature."sumLevenshtein",
+  answer_feature."nCharacters",
+  answer_feature."nWords",
+  answer_feature."containsCommonWord",
+  answer_feature."isQualitativeAnswerAboutGraph"
+FROM answer_feature
 JOIN answer_info ON
 answer_feature.examfile = answer_info.examfile AND
 answer_feature."number" = answer_info."number" AND
