@@ -54,11 +54,18 @@ getSumLevenshtein :: Question -> Answer -> Int
 getSumLevenshtein answers thisAnswer = sum $ map (levenshtein $ answer thisAnswer) $ map answer answers
 
 -- Count by word
-wordCount :: String -> M.Map String Int
-wordCount textString = foldr (\a b -> M.insertWith (+) a 1 b) M.empty $ words textString
+wordCounts :: String -> M.Map String Int
+wordCounts text = foldr (\a b -> M.insertWith (+) a 1 b) M.empty $ words text
 
--- 
+-- Length of answer
+getNCharacters = length
 
+getNWords :: String -> Int
+getNWords text = length $ filter (== ' ') text
+
+-- Contains and
+getContainsAnd :: String -> Bool
+getContainsAnd text = (> 0) $ length $ filter (== "and") $ words text
 
 ----------------------------------------------------------------------------------
 -- Create a table with the features.
