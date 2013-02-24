@@ -14,12 +14,9 @@ data Answer = Answer { file :: String
                      , isCorrect :: Bool
 } deriving (Show)
 
-data AnswerFeatures = AnswerFeatures { file :: String
-                                     , number :: Int
-                                     , choice :: Int
-                                     , question :: String
-                                     , answer :: String
-                                     , isCorrect :: Bool
+data AnswerFeatures = AnswerFeatures { file' :: String
+                                     , number' :: Int
+                                     , choice' :: Int
                            
                                      -- Features?
                                      , sumLevenshtein :: Int
@@ -34,7 +31,7 @@ type Question = [Answer]
 type QuestionFeatures = [AnswerFeatures]
 
 -- Helpers
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 1;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
 convAnswer :: [SqlValue] -> Answer
@@ -95,12 +92,9 @@ getIsQualitativeAnswerAboutGraph a = graph && qualitative
 
 ----------------------------------------------------------------------------------
 extractFeatures :: Question -> QuestionFeatures
-extractFeatures q = map (\a -> AnswerFeatures { file  = file a
-                                              , number  = number a
-                                              , choice = choice a
-                                              , question = question a
-                                              , answer = answer a
-                                              , isCorrect  = isCorrect a
+extractFeatures q = map (\a -> AnswerFeatures { file' = file a
+                                              , number'  = number a
+                                              , choice' = choice a
                                               , sumLevenshtein = getSumLevenshtein q a
                                               , nCharacters = getNCharacters (answer a)
                                               , nWords = getNWords (answer a)
@@ -136,7 +130,7 @@ main = do
   --let w = map (map (\a -> commonWords (question a) (answer a))) questions
   --putStrLn $ show $ foldr S.union S.empty $ concat w
 
-  
+  putStrLn $ show $ extractFeatures $ head questions
 
   -- And disconnect from the database
   disconnect conn
