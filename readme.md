@@ -84,6 +84,8 @@ I correctly excluded answers 1 and 2 from question 45 of January 2004 because th
 > 3. The gap between male and female incomes has declined.
 > 4. Fewer women are staying home to raise their young children.
 
+This is implemented as `getIsQualitativeAnswerAboutGraph`.
+
 ### Equivalent answers lose.
 
 Without reading the three headlines, I correctly guessed choice 1 because the others were all equivalent.

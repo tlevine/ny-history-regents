@@ -74,7 +74,15 @@ commonWords a b = S.difference (S.intersection (w a) (w b)) stopWords
     w t = S.fromList $ words t
     stopWords = S.fromList ["in", "the", "of", "to", "and", "The", "are", "from", "is", "In", "be", "all", "an", "are", "as", "at", "In", "its", "was", "were", "than","that",]
 
---getContainsCommonWord :: String -> String -> Bool
+getContainsCommonWord :: String -> String -> Bool
+getContainsCommonWord a b = (> 0) $ S.length $ commonWords a b
+
+-- Qualitative answer about a graph question
+getIsQualitativeAnswerAboutGraph :: Answer -> Bool
+getIsQualitativeAnswerAboutGraph a = graph && qualitative
+  where
+    graph = ((> 0) $ length $ filter (== "graph") $ words $ question a)
+    qualitative = (== 0) $ S.length $ S.intersection (S.fromList "1234567890") (S.fromList $ answer a)
 
 
 ----------------------------------------------------------------------------------
