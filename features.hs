@@ -18,7 +18,7 @@ data Answer = Answer { file :: String
 type Question = [Answer]
 
 -- Helpers
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 4;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 featureQuery = "INSERT INTO answer_features VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
@@ -79,16 +79,16 @@ getIsQualitativeAnswerAboutGraph a = graph && qualitative
 
 
 ----------------------------------------------------------------------------------
-extractFeatures :: Question -> [(String, Int, Int, Int, Int, Int, Bool, Bool)]
-extractFeatures q = map (\a -> ( file a
-                               , number a
-                               , choice a
-                               , getSumLevenshtein q a
-                               , getNCharacters (answer a)
-                               , getNWords (answer a)
-                               , getContainsCommonWord (question a) (answer a)
-                               , getIsQualitativeAnswerAboutGraph a
-                               )) q
+extractFeatures :: Question -> [[SqlValue]]
+extractFeatures q = map (\a -> [ toSql $ file a
+                               , toSql $ number a
+                               , toSql $ choice a
+                               , toSql $ getSumLevenshtein q a
+                               , toSql $ getNCharacters (answer a)
+                               , toSql $ getNWords (answer a)
+                               , toSql $ getContainsCommonWord (question a) (answer a)
+                               , toSql $ getIsQualitativeAnswerAboutGraph a
+                               ]) q
 
 
 -- Create a table with the features.
@@ -119,12 +119,9 @@ main = do
   --let w = map (map (\a -> commonWords (question a) (answer a))) questions
   --putStrLn $ show $ foldr S.union S.empty $ concat w
 
-  putStrLn $ show $ concat $ map extractFeatures questions
-
   stmt <- prepare conn featureQuery
---executeMany stmt 
---[[toSql 5, toSql "five's nice"], [toSql 6, SqlNull]]
---commit conn
+  executeMany stmt $ concat $ map extractFeatures questions
+  commit conn
 
   -- And disconnect from the database
   disconnect conn
