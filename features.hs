@@ -79,6 +79,10 @@ getIsQualitativeAnswerAboutGraph a = graph && qualitative
 
 
 ----------------------------------------------------------------------------------
+asNumeric :: Bool -> Int
+asNumeric True = 1
+asNumeric False = 0
+
 extractFeatures :: Question -> [[SqlValue]]
 extractFeatures q = map (\a -> [ toSql $ file a
                                , toSql $ number a
@@ -86,8 +90,8 @@ extractFeatures q = map (\a -> [ toSql $ file a
                                , toSql $ getSumLevenshtein q a
                                , toSql $ getNCharacters (answer a)
                                , toSql $ getNWords (answer a)
-                               , toSql $ getContainsCommonWord (question a) (answer a)
-                               , toSql $ getIsQualitativeAnswerAboutGraph a
+                               , toSql $ asNumeric $ getContainsCommonWord (question a) (answer a)
+                               , toSql $ asNumeric $ getIsQualitativeAnswerAboutGraph a
                                ]) q
 
 
