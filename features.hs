@@ -31,7 +31,7 @@ type Question = [Answer]
 type QuestionFeatures = [AnswerFeatures]
 
 -- Helpers
-questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 1;"
+questionQuery = "SELECT DISTINCT examfile, \"number\" FROM answer LIMIT 4;"
 answerQuery = "SELECT examfile, \"number\", choice, question, answer, isCorrect FROM answer WHERE examfile = ? AND \"number\" = ?;"
 
 convAnswer :: [SqlValue] -> Answer
@@ -130,7 +130,7 @@ main = do
   --let w = map (map (\a -> commonWords (question a) (answer a))) questions
   --putStrLn $ show $ foldr S.union S.empty $ concat w
 
-  putStrLn $ show $ extractFeatures $ head questions
+  putStrLn $ show $ concat $ map extractFeatures questions
 
   -- And disconnect from the database
   disconnect conn
