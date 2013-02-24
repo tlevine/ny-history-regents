@@ -63,9 +63,19 @@ getNCharacters = length
 getNWords :: String -> Int
 getNWords text = length $ filter (== ' ') text
 
--- Contains and
+-- Contains "and"
 getContainsAnd :: String -> Bool
 getContainsAnd text = (> 0) $ length $ filter (== "and") $ words text
+
+-- Question and answer contain a same word
+commonWords :: String -> String -> S.Set String
+commonWords a b = S.difference (S.intersection (w a) (w b)) stopWords
+  where
+    w t = S.fromList $ words t
+    stopWords = S.fromList ["in", "the", "of", "to"]
+
+--getContainsCommonWord :: String -> String -> Bool
+
 
 ----------------------------------------------------------------------------------
 -- Create a table with the features.
@@ -90,7 +100,8 @@ main = do
   --Word counts
   --putStrLn $ show $ foldl (M.unionWith (+)) M.empty $ map wordCount $ map answer $ head questions
   
-  putStrLn $ show $ map (length . answer) $ head questions
+  --putStrLn $ show $ map (length . answer) $ head questions
+  putStrLn $ show $ map (map (\a -> commonWords (question a) (answer a))) questions
 
   -- And disconnect from the database
   disconnect conn

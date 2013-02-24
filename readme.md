@@ -49,6 +49,8 @@ It might be related to the linguistic complexity, so here are some other things 
 * How fancy the words are
 * Number of adjectives
 
+This is implemented as `getNCharacters` and `getNWords`.
+
 ### The conjunction "and" wins.
 
 Somewhat contrary to my suspicion that short answers win, I also suspect that
@@ -67,6 +69,8 @@ I still haven't looked at the map mentioned in the question.
 > (2) increase naval mobility and expand overseas markets
 > (3) improve relations with Latin American and Asian nations
 > (4) maintain a policy of collective security
+
+This is implemented as `getContainsAnd`.
 
 ### Qualitative, abstract, synthesized statements about graphs win
 
@@ -112,6 +116,8 @@ As a side note, even after reading the headlines, I had no idea that these were 
 Maybe a hint is that "resources" and "conditions" are used in the table of legislative acts.
 I've generally seen that vocabularity is rarely repeated within an entire
 test, so repeating vocabulary might be an attempt to trick students.
+
+This is implemented as `getContainsCommonWord`.
 
 ### Question 36 of the June 2007 test
 Compared to other questions, this was quite easy for me to guess, but it
