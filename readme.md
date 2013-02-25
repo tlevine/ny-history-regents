@@ -13,10 +13,14 @@ Parse all of the US history regents.
 
     ./parse-us.sh
 
-Then export to csv.
+Extract the features
 
-    sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > history-regents.csv
+    ghc features.hs && echo Running features ... && ./features
 
+Export to csv if you like.
+
+    sqlite3 -csv -header /tmp/history-regents.db 'select * from question;' > question.csv
+    sqlite3 -csv -header /tmp/history-regents.db 'select * from answer;' > answer.csv
 
 ## Results
 If I guess the answer that is Leveschtein-closest to the others,
@@ -49,6 +53,8 @@ It might be related to the linguistic complexity, so here are some other things 
 * How fancy the words are
 * Number of adjectives
 
+This is implemented as `getNCharacters` and `getNWords`.
+
 ### The conjunction "and" wins.
 
 Somewhat contrary to my suspicion that short answers win, I also suspect that
@@ -68,6 +74,8 @@ I still haven't looked at the map mentioned in the question.
 > (3) improve relations with Latin American and Asian nations
 > (4) maintain a policy of collective security
 
+This is implemented as `getContainsAnd`.
+
 ### Qualitative, abstract, synthesized statements about graphs win
 
 I correctly excluded answers 1 and 2 from question 45 of January 2004 because they sounded too quantitative.
@@ -79,6 +87,8 @@ I correctly excluded answers 1 and 2 from question 45 of January 2004 because th
 > 2. Since 1990, women have made up more than half of the workforce.
 > 3. The gap between male and female incomes has declined.
 > 4. Fewer women are staying home to raise their young children.
+
+This is implemented as `getIsQualitativeAnswerAboutGraph`.
 
 ### Equivalent answers lose.
 
@@ -112,6 +122,8 @@ As a side note, even after reading the headlines, I had no idea that these were 
 Maybe a hint is that "resources" and "conditions" are used in the table of legislative acts.
 I've generally seen that vocabularity is rarely repeated within an entire
 test, so repeating vocabulary might be an attempt to trick students.
+
+This is implemented as `getContainsCommonWord`.
 
 ### Question 36 of the June 2007 test
 Compared to other questions, this was quite easy for me to guess, but it
